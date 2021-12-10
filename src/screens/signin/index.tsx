@@ -9,17 +9,24 @@ import {
   TouchableOpacity,
   Button,
   TextInput,
-  Alert,
 } from 'react-native';
+
+import { useDispatch } from 'react-redux';
 
 import {useNavigation} from '@react-navigation/native';
 
 import api from '../../services';
+import {getToken} from '../../store/modules/auth/action';
+import { IUser } from '../../types';
 
-export default function SignIn() {
-  const [token, setToken] = useState({});
-  const [user, setUser] = useState({});
-  const navigation = useNavigation();
+interface IToken {
+  token: string;
+}
+
+const SignIn: React.FC = () => {
+  const dispatch = useDispatch();
+  const [user, setUser] = useState<IUser>({} as IUser);
+  const navigation: void | any = useNavigation();
 
   const handleLogin = () => {
     api
@@ -29,13 +36,12 @@ export default function SignIn() {
         },
       })
       .then(res => {
-        console.log(res.data);
-        setToken(res.data);
+        dispatch(getToken(res.data?.token));
         setTimeout(() => {
           navigation.navigate('dash');
         }, 1500);
       })
-      .catch(err => console.log(err))
+      .catch(err => console.warn())
       .finally(() => {
         setUser({
           email: '',
@@ -51,9 +57,8 @@ export default function SignIn() {
   return (
     <SafeAreaView>
       <View style={styles.default}>
-        <Text>Faça seu login</Text>
         <View style={styles.card}>
-          <Text style={styles.title}>Logar</Text>
+          <Text style={styles.title}>Login</Text>
           <View>
             <TextInput
               placeholder="Informe seu e-mail"
@@ -66,7 +71,7 @@ export default function SignIn() {
               secureTextEntry={true}
               onChangeText={e => setUser({...user, password: e})}
             />
-            <Button title="Entrar" onPress={handleLogin} />
+            <Button title="Entrar" onPress={handleLogin} color="#2a2a2a" accessibilityLabel="Fazer login"/>
           </View>
         </View>
         <View>
@@ -74,12 +79,13 @@ export default function SignIn() {
           <TouchableOpacity onPress={handleRegister}>
             <Text>Cadastre-se</Text>
           </TouchableOpacity>
-          <Text>{token?.token}</Text>
         </View>
       </View>
     </SafeAreaView>
   );
 }
+
+export default SignIn;
 
 const styles = StyleSheet.create({
   default: {
@@ -88,13 +94,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   card: {
-    backgroundColor: '#FFFFFF',
-    paddingHorizontal: 30,
-    paddingVertical: 30,
+    backgroundColor: '#FECAD6',
+    paddingHorizontal: 45,
+    paddingVertical: 45,
     borderRadius: 12,
   },
   title: {
-    fontSize: 22,
+    fontSize: 25,
     fontWeight: 'bold',
+    paddingBottom: 20,
   },
 });

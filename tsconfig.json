@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "target": "esnext",
+    "module": "commonjs",
+    "lib": ["es2017"],
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "paths": {},
+    "strict": true,
+    "skipLibCheck": true,
+  },
+  "exclude": [
+    "node_modules", "babel.config.js", "metro.config.js"
+  ]
+}

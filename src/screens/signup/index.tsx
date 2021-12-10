@@ -8,17 +8,19 @@ import {
   TextInput,
   TouchableOpacity,
   Button,
-  Alert,
 } from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
 
+import IsAuth from '../../components/IsAuth';
+
 import api from '../../services';
+import { IUser } from '../../types/index';
 
-export default function SignUp() {
-  const navigation = useNavigation();
+const SignUp: React.FC = () => {
+  const navigation: void | any = useNavigation();
 
-  const [data, setData] = useState();
+  const [data, setData] = useState<IUser>({} as IUser);
 
   const handleLogin = () => {
     navigation.navigate('Entrar');
@@ -27,7 +29,7 @@ export default function SignUp() {
   const handleRegister = useCallback(() => {
     api
       .post('users', data)
-      .then(res => {
+      .then(() => {
         navigation.navigate('Entrar');
         setData({
           name: '',
@@ -35,7 +37,7 @@ export default function SignUp() {
           password: '',
         });
       })
-      .catch(() => console.log('Deu xabu')) //Alert('Houve algum erro no cadastro! Tente novamente!'))
+      .catch(() => console.warn())
       .finally(() => {
         setData({
           name: '',
@@ -49,6 +51,7 @@ export default function SignUp() {
     <SafeAreaView>
       <View style={styles.default}>
         <View style={styles.card}>
+          <Text style={styles.title}>Cadastrar</Text>
           <TextInput
             placeholder="Informe seu nome"
             onChangeText={e => setData({...data, name: e})}
@@ -62,18 +65,27 @@ export default function SignUp() {
             secureTextEntry={true}
             onChangeText={e => setData({...data, password: e})}
           />
-          <Button title="Cadastrar" onPress={handleRegister} />
+          <Button
+            title="Cadastrar"
+            onPress={handleRegister}
+            color="#2a2a2a"
+            accessibilityLabel="Realizar cadastro"
+          />
         </View>
         <View>
-          <Text>Já possui cadastro?</Text>
-          <TouchableOpacity onPress={handleLogin}>
-            <Text>Logar</Text>
-          </TouchableOpacity>
+          <Text>
+            Já possui cadastro?
+            <TouchableOpacity onPress={handleLogin}>
+              <Text>Logar</Text>
+            </TouchableOpacity>
+          </Text>
         </View>
       </View>
     </SafeAreaView>
   );
 }
+
+export default SignUp;
 
 const styles = StyleSheet.create({
   default: {
@@ -82,9 +94,15 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height,
   },
   card: {
-    backgroundColor: '#FFFFFF',
-    paddingHorizontal: 20,
-    paddingVertical: 30,
+    backgroundColor: '#FECAD6',
+    paddingHorizontal: 45,
+    paddingVertical: 45,
     borderRadius: 12,
+  },
+  title: {
+    alignContent: 'center',
+    fontSize: 25,
+    fontWeight: 'bold',
+    paddingBottom: 20,
   },
 });
