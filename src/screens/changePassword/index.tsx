@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useSelector} from 'react-redux';
 import {
   View,
   Text,
@@ -9,13 +10,20 @@ import {
 
 import api from '../../services';
 
+import {IAuth} from '../../types';
+
 import {useNavigation} from '@react-navigation/native';
+
+interface IGambeta {
+  auth: IAuth;
+}
 
 const ChangePassword: React.FC = () => {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const navigation: void | any = useNavigation();
+  const globalState = useSelector((state: IGambeta) => state);
 
   const handleChangePassword = () => {
     const credentials = {
@@ -27,6 +35,7 @@ const ChangePassword: React.FC = () => {
       .put('users', credentials, {
         headers: {
           ContentType: 'application/json',
+          Authorization: `Bearer ${globalState.auth.token}`,
         },
       })
       .then(() => {

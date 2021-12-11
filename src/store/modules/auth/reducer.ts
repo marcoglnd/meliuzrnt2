@@ -7,7 +7,14 @@ const AuthToken: Reducer<IAuth | any> = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case 'SET_TOKEN': {
       const {auth} = action.payload;
-      console.log('payload', auth);
+      return {
+        ...state,
+        auth: auth,
+      };
+    }
+
+    case 'LOG_OUT': {
+      const {auth} = action.payload;
       return {
         ...state,
         auth: auth,
