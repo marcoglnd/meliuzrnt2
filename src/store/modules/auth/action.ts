@@ -1,15 +1,17 @@
-interface IAction{
+import {IAuth} from "../../../types";
+
+interface IAction {
   type: string;
   payload: {
-    token: string;
+    auth: IAuth;
   };
 }
 
-export const getToken = (token: string): IAction => {
+export const getToken = (auth: IAuth): IAction => {
   return {
     type: 'SET_TOKEN',
     payload: {
-      token,
-    }
-  }
-}
+      auth,
+    },
+  };
+};

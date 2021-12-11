@@ -1,4 +1,4 @@
-import { createStore } from 'redux';
+import {createStore} from 'redux';
 
 import getToken from './modules/auth/reducer';
 

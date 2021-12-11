@@ -1,4 +1,7 @@
-import React, {useState} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useState, useEffect} from 'react';
+
+import jwtDecode, {JwtPayload} from 'jwt-decode';
 
 import {
   SafeAreaView,
@@ -11,20 +14,22 @@ import {
   TextInput,
 } from 'react-native';
 
-import { useDispatch } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {useNavigation} from '@react-navigation/native';
 
 import api from '../../services';
 import {getToken} from '../../store/modules/auth/action';
-import { IUser } from '../../types';
 
-interface IToken {
-  token: string;
-}
+import {IUser} from '../../types';
+
+// interface IToken {
+//   token: string;
+// }
 
 const SignIn: React.FC = () => {
   const dispatch = useDispatch();
+  const globalState = useSelector((state: any) => state);
   const [user, setUser] = useState<IUser>({} as IUser);
   const navigation: void | any = useNavigation();
 
@@ -36,12 +41,13 @@ const SignIn: React.FC = () => {
         },
       })
       .then(res => {
-        dispatch(getToken(res.data?.token));
+        dispatch(getToken(res.data));
+        console.log(res.data);
         setTimeout(() => {
           navigation.navigate('dash');
         }, 1500);
       })
-      .catch(err => console.warn())
+      .catch(err => console.warn(err))
       .finally(() => {
         setUser({
           email: '',
@@ -49,6 +55,24 @@ const SignIn: React.FC = () => {
         });
       });
   };
+
+  const isAuth: any = () => {
+    if (globalState?.token) {
+      const tokenPayload: any = jwtDecode<JwtPayload>(globalState?.token);
+      const expToken = tokenPayload.exp;
+      const timeNow = Date.now() / 1000;
+
+      return timeNow > expToken ? false : true;
+    } else {
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    if (isAuth()) {
+      navigation.navigate('dash');
+    }
+  }, [globalState]);
 
   const handleRegister = () => {
     navigation.navigate('Cadastre-se');
@@ -71,7 +95,12 @@ const SignIn: React.FC = () => {
               secureTextEntry={true}
               onChangeText={e => setUser({...user, password: e})}
             />
-            <Button title="Entrar" onPress={handleLogin} color="#2a2a2a" accessibilityLabel="Fazer login"/>
+            <Button
+              title="Entrar"
+              onPress={handleLogin}
+              color="#2a2a2a"
+              accessibilityLabel="Fazer login"
+            />
           </View>
         </View>
         <View>
@@ -83,7 +112,7 @@ const SignIn: React.FC = () => {
       </View>
     </SafeAreaView>
   );
-}
+};
 
 export default SignIn;
 

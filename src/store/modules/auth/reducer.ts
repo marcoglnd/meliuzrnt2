@@ -1,22 +1,16 @@
-import { Reducer } from 'redux';
-import { IAuth } from '../../../types';
+import {Reducer} from 'redux';
+import {IAuth} from '../../../types';
 
-const INITIAL_STATE = {
-  auth: {
-    token: '',
-  },
-};
+const INITIAL_STATE = {};
 
 const AuthToken: Reducer<IAuth | any> = (state = INITIAL_STATE, action) => {
-  switch(action.type){
-    case 'SET_TOKEN': 
-      {
-        const {token} = action.payload;
-        return {
-          ...state,
-          token: token,
-        };
-      }
+  switch (action.type) {
+    case 'SET_TOKEN': {
+      const {auth} = action.payload;
+      return {
+        auth: auth.auth,
+      };
+    }
 
     default: {
       return state;

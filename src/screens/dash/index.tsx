@@ -6,17 +6,19 @@ import IsAuth from '../../components/IsAuth';
 
 const dash: React.FC = () => {
   return (
-    <View>
+    <View style={styles.default}>
       <IsAuth />
       <Text>Dashboard</Text>
     </View>
   );
-}
+};
 
 export default dash;
 
 const styles = StyleSheet.create({
   default: {
     height: Dimensions.get('window').height,
-  }
-})
+    alignContent: 'center',
+    alignItems: 'center',
+  },
+});
