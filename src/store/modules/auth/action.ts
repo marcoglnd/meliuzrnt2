@@ -1,4 +1,4 @@
-import {IAuth} from "../../../types";
+import {IAuth} from '../../../types';
 
 interface IAction {
   type: string;
