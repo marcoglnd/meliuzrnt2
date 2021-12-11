@@ -10,6 +10,7 @@ import store from './store';
 import SignIn from './screens/signin';
 import SignUp from './screens/signup';
 import Dash from './screens/dash';
+import ChangePassword from './screens/changePassword';
 
 const {Navigator, Screen} = createStackNavigator();
 
@@ -24,10 +25,11 @@ const Stack: React.FC = () => {
           <Screen name="Cadastre-se" component={SignUp} />
           <Screen name="Entrar" component={SignIn} />
           <Screen name="dash" component={Dash} />
+          <Screen name="changepassword" component={ChangePassword} />
         </Navigator>
       </Provider>
     </NavigationContainer>
   );
-}
+};
 
 export default Stack;

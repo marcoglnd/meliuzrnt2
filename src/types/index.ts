@@ -5,12 +5,10 @@ export interface IUser {
 }
 
 export interface IAuth {
-  auth: {
-    token: string;
-    user: {
-      name: string;
-      email: string;
-      id: number;
-    };
+  token: string;
+  user: {
+    name: string;
+    email: string;
+    id: number;
   };
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
 import IsAuth from '../../components/IsAuth';
 
@@ -17,8 +17,8 @@ export default dash;
 
 const styles = StyleSheet.create({
   default: {
-    height: Dimensions.get('window').height,
+    flex: 1,
     alignContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

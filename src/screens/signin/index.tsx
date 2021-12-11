@@ -42,7 +42,6 @@ const SignIn: React.FC = () => {
       })
       .then(res => {
         dispatch(getToken(res.data));
-        console.log(res.data);
         setTimeout(() => {
           navigation.navigate('dash');
         }, 1500);
@@ -78,6 +77,10 @@ const SignIn: React.FC = () => {
     navigation.navigate('Cadastre-se');
   };
 
+  const handleChangePassword = () => {
+    navigation.navigate('changepassword');
+  };
+
   return (
     <SafeAreaView>
       <View style={styles.default}>
@@ -107,6 +110,10 @@ const SignIn: React.FC = () => {
           <Text>Ainda não possui conta?</Text>
           <TouchableOpacity onPress={handleRegister}>
             <Text>Cadastre-se</Text>
+          </TouchableOpacity>
+          <Text>Esqueceu a senha?</Text>
+          <TouchableOpacity onPress={handleChangePassword}>
+            <Text>Trocar senha</Text>
           </TouchableOpacity>
         </View>
       </View>
